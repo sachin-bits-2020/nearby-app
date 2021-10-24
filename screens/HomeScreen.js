@@ -89,9 +89,14 @@ const HomeScreen = (props) => {
   };
 
   const navigateToDetailPage = (props, item) => {
-    return props.navigation.navigate("UserDetail", {
-      fullName: item.fullName,
-    });
+    // return props.navigation.navigate("UserDetail", {
+    //   fullName: item.fullName,
+    // });
+    Alert.alert(
+      `Notified the ${item.fullName} regarding your request to communicate`,
+      `please check other similiar services in your area`,
+      [{ text: "Okay" }]
+    );
   };
 
   useEffect(() => {
@@ -116,24 +121,29 @@ const HomeScreen = (props) => {
           </View>
         ) : null}
         <FlatList
+          style={styles.list}
+          contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
           data={nearByUsers}
           keyExtractor={(item) => item._id}
           renderItem={({ item }) => {
             console.log("item", item);
             return (
-              <View>
+              <View style={styles.listItem}>
                 <View>
-                  <Text style={styles.text}>{item.fullName}</Text>
+                  <Text style={styles.fullname}>{item.fullName}</Text>
                 </View>
                 <View>
-                  <Text style={styles.text}>{item.email}</Text>
+                  <Text style={styles.email}>{item.email}</Text>
                 </View>
-                <View>
+                <View style={styles.navigation}>
                   <View>
-                    <Text style={styles.text}>{item.distanceFromUser}</Text>
+                    <Text style={styles.text}>
+                      {item.distanceFromUser} KM away
+                    </Text>
                   </View>
                   <View>
                     <Button
+                      style={styles.button}
                       title="View Details"
                       onPress={() => navigateToDetailPage(props, item)}
                     />
@@ -154,8 +164,36 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 40,
   },
+  list: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  listItem: {
+    margin: "1rem",
+    padding: "1rem",
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "#fff",
+    border: "1px solid #f0f0f0",
+  },
+  navigation: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   text: {
     fontSize: 22,
+  },
+  fullname: {
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  email: {
+    fontSize: 12,
+    fontStyle: "italic",
+  },
+  button: {
+    backgroundColor: "rgb(115, 130, 137)",
   },
 });
 
